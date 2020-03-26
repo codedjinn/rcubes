@@ -1,4 +1,22 @@
 
-import * as wasm from "rcubes";
+import { Client } from "rcubes";
 
-wasm.start();
+let client = null;
+
+function renderLoop() {
+
+    client.main_loop();
+    
+    if (client.is_running()) {
+        window.requestAnimationFrame(renderLoop);
+    }
+    
+}
+
+setTimeout(() => {
+
+    client = Client.new();
+
+    renderLoop();
+
+}, 500);
