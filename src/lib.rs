@@ -12,6 +12,7 @@ pub struct Client {
     time_stamp: u128,
     gl: WebGlRenderingContext,
 
+    divTest: web_sys::Element
 }
 
 #[wasm_bindgen]
@@ -25,6 +26,8 @@ impl Client {
         let canvas = document.get_element_by_id("canvas").unwrap();
         let canvas: web_sys::HtmlCanvasElement = canvas.dyn_into::<web_sys::HtmlCanvasElement>().unwrap();
 
+        let divElement = document.get_element_by_id("test").unwrap();
+
         let context = canvas
             .get_context("webgl").unwrap()
             .unwrap()
@@ -33,14 +36,23 @@ impl Client {
         Client {
             running: true,
             time_stamp: 0,
-            gl: context
+            gl: context,
+            divTest: divElement
         }
     }
 
-    pub fn main_loop(&mut self) {
-        let now = performance.now();
+    pub fn main_loop(&mut self, time: i32) -> Result<(), JsValue> {
 
-        self.lastTime = now.elapsed().as_millis();
+        // personally more predictable to work with seconds doing calculations
+        let time_as_second = (time as f32) / 1000f32;
+
+        // test output on browser
+        // self.divTest.set_inner_html(&time_as_second.to_string());
+
+        Ok(())
+    }
+
+    fn update(&self, deltaTime: f32) {
     }
 
     pub fn is_running(&self) -> bool { return self.running; }

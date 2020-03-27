@@ -4,12 +4,20 @@
 <head>
     <meta charset="utf-8">
     <title>rcubes</title>
+    <style>
+        #fps {
+            white-space: pre;
+            font-family: monospace;
+        }
+    </style>
 </head>
 
 <body>
+    <div id="fps"></div>
     <canvas id="canvas" width="1024" height="768">
         Browser doesn't support canvas
     </canvas>
+    <div id="test"></div>
     <noscript>This page contains webassembly and javascript content, please enable javascript in your
         browser.</noscript>
     <script src="./bootstrap.js"></script>
