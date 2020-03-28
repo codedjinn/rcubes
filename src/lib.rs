@@ -1,9 +1,17 @@
 
 extern crate console_error_panic_hook;
 
+extern crate nalgebra;
+
+mod framework;
+
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
 use web_sys::{WebGlProgram, WebGlRenderingContext, WebGlShader};
+
+use framework::Scene;
+
+use nalgebra::Vector3;
 
 #[wasm_bindgen]
 pub struct Client {
@@ -12,7 +20,9 @@ pub struct Client {
     time_stamp: u128,
     gl: WebGlRenderingContext,
 
-    divTest: web_sys::Element
+    divTest: web_sys::Element,
+
+    scene: core::Scene;
 }
 
 #[wasm_bindgen]
@@ -48,6 +58,8 @@ impl Client {
 
         // test output on browser
         // self.divTest.set_inner_html(&time_as_second.to_string());
+
+        self.update(time_as_second);
 
         Ok(())
     }

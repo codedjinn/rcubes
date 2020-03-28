@@ -10,8 +10,9 @@ crate-type = [ "cdylib", "rlib" ]
 default = ["console_error_panic_hook"]
 
 [dependencies]
-js-sys = "0.3.36"
-wasm-bindgen = "0.2.59"
+js-sys = "0.3.37"
+wasm-bindgen = "0.2.60"
+nalgebra = "0.20.0"
 console_error_panic_hook = { version = "0.1.1", optional = true }
 wee_alloc = { version = "0.4.2", optional = true }
 
