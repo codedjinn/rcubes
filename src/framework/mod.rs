@@ -1,5 +1,6 @@
 
 mod scene;
 mod node;
+mod camera;
 
-pub struct Scene;
+pub use scene::*;
