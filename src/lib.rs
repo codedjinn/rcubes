@@ -44,11 +44,21 @@ macro_rules! console_log {
     ($($t:tt)*) => (log(&format_args!($($t)*).to_string()))
 }
 
+
+trait Component<T> {
+
+    
+    fn save();
+    fn load();
+
+    fn get() -> T;
+
+}
+
 #[wasm_bindgen]
 impl Client {
 
     pub fn new() -> Client {
-
         console_error_panic_hook::set_once();
 
         console_log!("Creating new client instance...");

@@ -3,22 +3,19 @@ use na::{ Vector3, Isometry3 };
 
 use web_sys::{WebGlRenderingContext};
 
-pub struct Node {
+pub struct Entity {
     pos: na::Vector3<f32>,
     rot: na::Isometry3<f32>,
     scale: na::Vector3<f32>,
 
     enabled: bool,
 
-    nodes: Vec<u32>,
-
     context: Option<WebGlRenderingContext>
 }
 
-impl Node {
+impl Entity {
 
     pub fn new() -> Node {
-
         let pos: Vector3<f32> = Vector3::new(0.0, 0.0, 0.0);
         let scale: Vector3<f32> = Vector3::new(1.0, 1.0, 1.0);
         
@@ -30,7 +27,6 @@ impl Node {
             nodes: Vec::new(),
             context: None
         }
-
     }
 
     pub fn update(&self, time: f32) {
@@ -47,4 +43,6 @@ impl Node {
 }
 
 
+trait Component<T> {
 
+}
