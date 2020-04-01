@@ -1,7 +1,7 @@
 
 use web_sys::{WebGlRenderingContext};
 
-
+use super::camera::Camera;
 
 //
 // Basic scene-tree that can have mutliple roots.  The scene itself is 
@@ -10,29 +10,30 @@ use web_sys::{WebGlRenderingContext};
 // work in progress, probably gonna change a lot
 //
 
-pub struct Scene
+// not gonna code things too modular, but at least have the flexibility
+// of specifying different cameras like Free,FPS,RTS,Debug,etc....
+pub struct Scene<C> where
+    C : Camera
 {
     nodes: Vec<i32>,
-    context: WebGlRenderingContext
+    context: WebGlRenderingContext,
+    camera: C
 }
 
-impl Scene {
+impl<C> Scene<C> {
 
-    pub fn new(context: WebGlRenderingContext) -> Scene {
+    pub fn new(context: WebGlRenderingContext) -> Self {
+
+        let camera: C = C::new();
+        
         Scene {
-
-            context,
             nodes: Vec::new(),
-
+            context: context,
+            camera: camera
         }
+
     }
 
-    pub fn update(&self, time: f32) {
-        // for (i, node) in self.nodes.iter().enumerate() {
-        //     if node.is_enabled() {
-        //         node.update(time);
-        //     }
-        // }
-    }
 }
+
 

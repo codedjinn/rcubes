@@ -17,6 +17,21 @@ use web_sys::{WebGlProgram, WebGlRenderingContext, WebGlShader};
 use na::{Vector3, Point3};
 
 use framework::Scene;
+use framework::Camera;
+
+// struct FreeCamera {
+// }
+// impl Camera for FreeCamera {
+
+//     fn initialize() {
+//     }
+
+//     fn update(time: f32) {
+
+//     }
+// }
+
+struct FreeCamera {}
 
 #[wasm_bindgen]
 pub struct Client {
@@ -24,7 +39,7 @@ pub struct Client {
     running: bool,
     time_stamp: u128,
     gl: WebGlRenderingContext,
-    scene: Scene,
+    scene: Scene<FreeCamera>,
     divTest: web_sys::Element
 
 }

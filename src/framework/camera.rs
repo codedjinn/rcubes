@@ -1,17 +1,6 @@
 
-use na::{ Perspective3 };
+use super::base::{Updateable,Initializer};
 
-pub trait Camera {
-
-    fn initialize() {}
-}
-
-struct Foo{
-
-}
-
-impl Foo {
-    fn new() {
-        Perspective3::new()
-    }
-}
+pub trait Camera : Initializer + Updateable {
+    fn new() -> Self { Self{}}
+} // : Initializer + Updateable {}
