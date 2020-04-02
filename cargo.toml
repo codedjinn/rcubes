@@ -25,8 +25,12 @@ features = [
   'HtmlCanvasElement',
   'WebGlBuffer',
   'WebGlRenderingContext',
+  'WebGl2RenderingContext',
   'WebGlProgram',
   'WebGlShader',
   'Window',
   'console'
 ]
+
+[profile.release]
+debug = true
