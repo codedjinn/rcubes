@@ -19,17 +19,19 @@ use na::{Vector3, Point3};
 use framework::Scene;
 use framework::FreeCamera;
 
-// struct FreeCamera {
-// }
-// impl Camera for FreeCamera {
+#[wasm_bindgen]
+extern {
+    #[wasm_bindgen(js_namespace = console)]
+    pub fn log(s: &str);
+}
 
-//     fn initialize() {
-//     }
-
-//     fn update(time: f32) {
-
-//     }
-// }
+// thanks to rust wasm examples on https://rustwasm.github.io/wasm-bindgen/examples/console-log.html
+#[macro_export]
+macro_rules! console_log {
+    // Note that this is using the `log` function imported above during
+    // `bare_bones`
+    ($($t:tt)*) => (log(&format_args!($($t)*).to_string()))
+}
 
 #[wasm_bindgen]
 pub struct Client {
@@ -38,22 +40,9 @@ pub struct Client {
     time_stamp: u128,
     gl: WebGlRenderingContext,
     scene: Scene<FreeCamera>,
+    renderer: render::Renderer,
     divTest: web_sys::Element
 
-}
-
-#[wasm_bindgen]
-extern {
-    #[wasm_bindgen(js_namespace = console)]
-    pub fn log(s: &str);
-}
-
-// thanks to rust wasm examples on https://rustwasm.github.io/wasm-bindgen/examples/console-log.html
-#[macro_use]
-macro_rules! console_log {
-    // Note that this is using the `log` function imported above during
-    // `bare_bones`
-    ($($t:tt)*) => (log(&format_args!($($t)*).to_string()))
 }
 
 #[wasm_bindgen]
@@ -76,12 +65,16 @@ impl Client {
             .dyn_into::<WebGlRenderingContext>().unwrap();
 
         let scene: Scene<FreeCamera> = framework::Scene::new(context.clone());
+        let renderer = render::Renderer::new(context.clone());
+
+        
         
         return Client {
             running: true,
             time_stamp: 0,
             gl: context,
-            scene, 
+            scene,
+            renderer,
             divTest: divElement
         };
 
@@ -90,12 +83,15 @@ impl Client {
     pub fn main_loop(&mut self, time: i32) -> Result<(), JsValue> {
 
         // personally more predictable to work with seconds doing calculations
-        let time_as_second = (time as f32) / 1000f32;
+        let time_as_seconds = (time as f32) / 1000f32;
 
+        // TODO: when things get more solid, see if we can't push
+        // update into a web worker
         // test output on browser
         // self.divTest.set_inner_html(&time_as_second.to_string());
+        self.update(time_as_seconds);
 
-        self.update(time_as_second);
+        self.renderer.render(time_as_seconds);
 
         Ok(())
     }

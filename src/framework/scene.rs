@@ -34,9 +34,6 @@ impl<Cam> Scene<Cam> where Cam: Camera {
     }
 
     pub fn update(&self, time: f32) {
-
-        
-
     }
 
 }

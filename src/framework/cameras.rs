@@ -2,12 +2,12 @@
 use na::{Perspective3, Matrix4, Vector3};
 
 use super::base::Camera;
-use nalgebra::{Isometry3, Matrix};
+use nalgebra::{Isometry3, Matrix, Point3};
 
 pub struct FreeCamera {
     
-    pos: Vector3<f32>,
-    look_at: Vector3<f32>,
+    pos: Point3<f32>,
+    look_at: Point3<f32>,
 
     transform: Matrix4<f32>,
     view: Matrix4<f32>,
@@ -21,8 +21,8 @@ impl Camera for FreeCamera {
     fn initialize() -> Self { 
         
         FreeCamera {
-            pos: na::zero(),
-            look_at: na::zero(),
+            pos: Point3::origin(),
+            look_at: Point3::origin(),
 
             transform: na::zero(),
             view: na::zero(),
@@ -34,16 +34,10 @@ impl Camera for FreeCamera {
 
     fn update(&self, time: f32) {
     }
-
     
-    fn get_pos(&self) -> Vector3<f32> { self.pos }
-    fn set_pos(&self, value: Vector3<f32>) { self.pos = value; }
+    fn get_pos(&self) -> Point3<f32> { self.pos }
 
-    fn get_view(&self) -> Isometry3<f32> { self.view }
-
-    fn get_transform(&self) -> Matrix4<f32> {self. transform }
-    
     fn get_frustum(&self) -> Perspective3<f32> {
-        na::zero()
+        self.frustrum
     }
 }

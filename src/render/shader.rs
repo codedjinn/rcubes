@@ -5,9 +5,11 @@ use super::super::utils;
 
 pub struct Shader {
 
+    program: Option<WebGlProgram>,
+
     vertex_source: String,
     fragment_source: String,
-    program: Option<WebGlProgram>,
+
     context: WebGlRenderingContext
     
 }
@@ -53,6 +55,10 @@ impl Shader {
         self.program = Some(program);
 
         return Ok(());
+    }
+
+    pub fn get_program(&self) -> &WebGlProgram {
+        return &self.program.unwrap();
     }
 }
 
