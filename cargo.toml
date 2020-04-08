@@ -12,15 +12,21 @@ default = ["console_error_panic_hook"]
 [dependencies]
 js-sys = "0.3.37"
 wasm-bindgen = "0.2.60"
-nalgebra = { version = "0.20", default-features = false }
+wasm-bindgen-futures = "0.4.10"
+nalgebra-glm = "0.7.0"
+gltf = "0.15.2"
 console_error_panic_hook = { version = "0.1.1", optional = true }
 wee_alloc = { version = "0.4.2", optional = true }
+serde = { version = "1.0.80", features = ["derive"] }
+serde_derive = "^1.0.59"
 
 [dependencies.web-sys]
 version = "0.3.4"
 features = [
   'Document',
   'Element',
+  'EventTarget',
+  'EventListener',
   'HtmlElement',
   'HtmlCanvasElement',
   'WebGlBuffer',
@@ -29,7 +35,13 @@ features = [
   'WebGlProgram',
   'WebGlShader',
   'Window',
-  'console'
+  'console',
+  'Headers',
+  'Request',
+  'RequestInit',
+  'RequestMode',
+  'Response',
+  'XmlHttpRequest'
 ]
 
 [profile.release]

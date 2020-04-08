@@ -1,5 +1,5 @@
 
-use web_sys::{WebGlProgram, WebGlRenderingContext, WebGlShader};
+use web_sys::{WebGlProgram, WebGl2RenderingContext, WebGlShader};
 
 use super::super::utils;
 
@@ -10,13 +10,13 @@ pub struct Shader {
     vertex_source: String,
     fragment_source: String,
 
-    context: WebGlRenderingContext
+    context: WebGl2RenderingContext
     
 }
 
 impl Shader {
 
-    pub fn new(context: WebGlRenderingContext,
+    pub fn new(context: WebGl2RenderingContext,
                vertex_source: String, 
                fragment_source: String) -> Shader {
 
@@ -34,7 +34,7 @@ impl Shader {
 
         let vs: &str = &self.vertex_source;
         let vertex_shader 
-                = compile_with_type(&self.context, WebGlRenderingContext::VERTEX_SHADER, vs);
+                = compile_with_type(&self.context, WebGl2RenderingContext::VERTEX_SHADER, vs);
                 
         match vertex_shader {
             Ok(_) => {},
@@ -43,7 +43,7 @@ impl Shader {
 
         let fs: &str = &self.fragment_source;
         let fragment_shader
-                = compile_with_type(&self.context, WebGlRenderingContext::FRAGMENT_SHADER, fs);
+                = compile_with_type(&self.context, WebGl2RenderingContext::FRAGMENT_SHADER, fs);
         match fragment_shader {
             Ok(_) => {},
             Err(msg) => return Err(msg)
@@ -57,12 +57,12 @@ impl Shader {
         return Ok(());
     }
 
-    pub fn get_program(&self) -> &WebGlProgram {
-        return &self.program.unwrap();
+    pub fn get_program(&self) -> Option<&WebGlProgram> {
+        self.program.as_ref()
     }
 }
 
-fn compile_with_type(context: &WebGlRenderingContext, shader_type: u32, source: &str) -> Result<WebGlShader, String> {
+fn compile_with_type(context: &WebGl2RenderingContext, shader_type: u32, source: &str) -> Result<WebGlShader, String> {
 
     let shader = context
                      .create_shader(shader_type)
@@ -71,7 +71,7 @@ fn compile_with_type(context: &WebGlRenderingContext, shader_type: u32, source: 
     context.compile_shader(&shader);
 
     if context
-       .get_shader_parameter(&shader, WebGlRenderingContext::COMPILE_STATUS)
+       .get_shader_parameter(&shader, WebGl2RenderingContext::COMPILE_STATUS)
        .as_bool()
        .unwrap_or(false)
     {
@@ -85,7 +85,7 @@ fn compile_with_type(context: &WebGlRenderingContext, shader_type: u32, source: 
 }
 
 fn link_program(
-    context: &WebGlRenderingContext,
+    context: &WebGl2RenderingContext,
     vertex_shader: &WebGlShader,
     fragment_shader: &WebGlShader
 ) -> Result<WebGlProgram, String> {
@@ -99,7 +99,7 @@ fn link_program(
     context.link_program(&program);
 
     if context
-        .get_program_parameter(&program, WebGlRenderingContext::LINK_STATUS)
+        .get_program_parameter(&program, WebGl2RenderingContext::LINK_STATUS)
         .as_bool()
         .unwrap_or(false)
     {

@@ -3,7 +3,7 @@
 
 extern crate console_error_panic_hook;
 
-extern crate nalgebra as na;
+extern crate nalgebra_glm as glm;
 
 mod core;
 mod framework;
@@ -12,9 +12,9 @@ mod utils;
 
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
-use web_sys::{WebGlProgram, WebGlRenderingContext, WebGlShader};
+use web_sys::{WebGlProgram, WebGl2RenderingContext, WebGlShader };
 
-use na::{Vector3, Point3};
+use glm::{vec3};
 
 use framework::Scene;
 use framework::FreeCamera;
@@ -38,7 +38,7 @@ pub struct Client {
 
     running: bool,
     time_stamp: u128,
-    gl: WebGlRenderingContext,
+    gl: WebGl2RenderingContext,
     scene: Scene<FreeCamera>,
     renderer: render::Renderer,
     divTest: web_sys::Element
@@ -53,6 +53,9 @@ impl Client {
 
         console_log!("Creating new client instance...");
 
+        console_log!("calling get method");
+        core::get(String::from("http://localhost:8080/assets/file.txt"));//(String::from("http://localhost:8080/assets/file.txt"));
+
         let document = web_sys::window().unwrap().document().unwrap();
         let canvas = document.get_element_by_id("canvas").unwrap();
         let canvas: web_sys::HtmlCanvasElement = canvas.dyn_into::<web_sys::HtmlCanvasElement>().unwrap();
@@ -60,15 +63,14 @@ impl Client {
         let divElement = document.get_element_by_id("test").unwrap();
 
         let context = canvas
-            .get_context("webgl").unwrap()
+            .get_context("webgl2").unwrap()
             .unwrap()
-            .dyn_into::<WebGlRenderingContext>().unwrap();
+            .dyn_into::<WebGl2RenderingContext>().unwrap();
 
         let scene: Scene<FreeCamera> = framework::Scene::new(context.clone());
-        let renderer = render::Renderer::new(context.clone());
+        let mut renderer = render::Renderer::new(context.clone());
+        renderer.intiialize();
 
-        
-        
         return Client {
             running: true,
             time_stamp: 0,

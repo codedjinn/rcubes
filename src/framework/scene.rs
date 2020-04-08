@@ -1,5 +1,5 @@
 
-use web_sys::{WebGlRenderingContext};
+use web_sys::{WebGl2RenderingContext};
 
 use super::base::Camera;
 
@@ -15,13 +15,13 @@ use super::base::Camera;
 pub struct Scene<Cam>
 {
     nodes: Vec<i32>,
-    context: WebGlRenderingContext,
+    context: WebGl2RenderingContext,
     camera: Cam
 }
 
 impl<Cam> Scene<Cam> where Cam: Camera {
 
-    pub fn new(context: WebGlRenderingContext) -> Self {
+    pub fn new(context: WebGl2RenderingContext) -> Self {
 
         let camera: Cam = Cam::initialize();
         
