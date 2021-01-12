@@ -11,6 +11,6 @@ The goal is also not to be an engine or even a modular framework, this project h
 - npm install
 - npm run build
 
-#run
+# running
 
 npm start - will open browser
